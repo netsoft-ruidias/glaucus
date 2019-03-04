@@ -1,7 +1,8 @@
 # Project Glaucus
 
-Project Glaucus is just another simple Object-relational mapping   
-Currently supports MSSQL and SQLite connectors and is very effective and powerful , yet simple to implement
+Glaucus is an open source ASP.NET Core ORM, it allows programs written in C#, Visual Basic, F# to access several database servers, using their native Data Providers
+
+Currently supports MSSQL and SQLite connectors and is very effective and powerful, yet simple to implement
 
 ## Database Engines
 Glaucus currently supports the following databases (and more to come)
