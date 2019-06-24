@@ -14,7 +14,9 @@ Please, do not hesitate to open an issue for any question you might have. I'm al
 
 ## Contributions
 I'm excited that you are interested in contributing to this ORM!   
-Anything from raising an issue, submitting an idea of a new feature, or making a pull request is welcome!
+Anything from raising an issue, submitting an idea for a new feature, or making a pull request is welcome!
+
+Please contribute using [Github Flow](https://guides.github.com/introduction/flow/). Create a branch, add commits, and open a pull request.
 
 ## Quick Start
 - Coming soon, please stay tune
