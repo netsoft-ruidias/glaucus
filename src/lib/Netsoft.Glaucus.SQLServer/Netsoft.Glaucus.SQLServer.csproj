@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <CodeAnalysisRuleSet>..\..\Netsoft.ruleset</CodeAnalysisRuleSet>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>MS SQL driver for Netsoft Glaucus</Description>
+    <Company>Netsoft Portugal</Company>
+    <Authors>Netsoft</Authors>
+    <Copyright>Copyright (c) Netsoft. All rights reserved.</Copyright>
+    <PackageProjectUrl>https://github.com/netsoft-ruidias/glaucus</PackageProjectUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="System.Data.SqlClient" Version="4.6.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Netsoft.Glaucus\Netsoft.Glaucus.csproj" />
+  </ItemGroup>
+
+</Project>

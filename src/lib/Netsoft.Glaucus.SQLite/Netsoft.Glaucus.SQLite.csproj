@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <CodeAnalysisRuleSet>..\..\Netsoft.ruleset</CodeAnalysisRuleSet>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Netsoft</Authors>
+    <Company>Netsoft Portugal</Company>
+    <Description>SQLite driver for Netsoft Glaucus</Description>
+    <Copyright>Copyright (c) Netsoft. All rights reserved.</Copyright>
+    <PackageProjectUrl>https://github.com/netsoft-ruidias/glaucus</PackageProjectUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="2.2.2" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Netsoft.Glaucus\Netsoft.Glaucus.csproj" />
+  </ItemGroup>
+
+</Project>

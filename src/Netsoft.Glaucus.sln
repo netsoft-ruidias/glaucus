@@ -1,0 +1,62 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29025.244
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0. Solution Items", "0. Solution Items", "{AACD486C-C0C6-4439-94D5-A83C2826564C}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		Netsoft.ruleset = Netsoft.ruleset
+		stylecop.json = stylecop.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Libraries", "1. Libraries", "{FDD6567A-CB81-4C19-ACBB-A3DD5D03865F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Tests", "2. Tests", "{06C2AD57-16A4-4251-A393-9BE5536B6CA7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Demos", "3. Demos", "{528E2326-CB8E-46BD-815B-23E50AF13823}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Netsoft.Glaucus.Tests", "tests\Netsoft.Glaucus.Tests\Netsoft.Glaucus.Tests.csproj", "{C17268C2-D938-4116-99A5-12673E764B40}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Netsoft.Glaucus", "lib\Netsoft.Glaucus\Netsoft.Glaucus.csproj", "{428149C4-4D18-485D-B928-FFFF56BF9C14}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Netsoft.Glaucus.SQLite", "lib\Netsoft.Glaucus.SQLite\Netsoft.Glaucus.SQLite.csproj", "{DB170F69-5988-4ACF-938C-EC84091C436B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Netsoft.Glaucus.SQLServer", "lib\Netsoft.Glaucus.SQLServer\Netsoft.Glaucus.SQLServer.csproj", "{F655572F-4463-4934-83B5-9131C94824CB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C17268C2-D938-4116-99A5-12673E764B40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C17268C2-D938-4116-99A5-12673E764B40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C17268C2-D938-4116-99A5-12673E764B40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C17268C2-D938-4116-99A5-12673E764B40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{428149C4-4D18-485D-B928-FFFF56BF9C14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{428149C4-4D18-485D-B928-FFFF56BF9C14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{428149C4-4D18-485D-B928-FFFF56BF9C14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{428149C4-4D18-485D-B928-FFFF56BF9C14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB170F69-5988-4ACF-938C-EC84091C436B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB170F69-5988-4ACF-938C-EC84091C436B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB170F69-5988-4ACF-938C-EC84091C436B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB170F69-5988-4ACF-938C-EC84091C436B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F655572F-4463-4934-83B5-9131C94824CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F655572F-4463-4934-83B5-9131C94824CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F655572F-4463-4934-83B5-9131C94824CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F655572F-4463-4934-83B5-9131C94824CB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C17268C2-D938-4116-99A5-12673E764B40} = {06C2AD57-16A4-4251-A393-9BE5536B6CA7}
+		{428149C4-4D18-485D-B928-FFFF56BF9C14} = {FDD6567A-CB81-4C19-ACBB-A3DD5D03865F}
+		{DB170F69-5988-4ACF-938C-EC84091C436B} = {FDD6567A-CB81-4C19-ACBB-A3DD5D03865F}
+		{F655572F-4463-4934-83B5-9131C94824CB} = {FDD6567A-CB81-4C19-ACBB-A3DD5D03865F}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F6622039-50F9-4C33-8EB0-C0D37F92C7DD}
+	EndGlobalSection
+EndGlobal
