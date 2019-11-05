@@ -53,62 +53,63 @@ namespace Netsoft.Glaucus
 			return result;
 		}
 
-		public DataTable ToDataTable(string sort) =>
-			this.ToDataTable().OrderBy(sort);
+        public DataTable ToDataTable(string sort)
+        {
+            return this.ToDataTable()
+                .OrderBy(sort);
+        }
 
-		public DataSet ToDataSet(string tableName, DataSet dataSet = null)
+        public DataSet ToDataSet(string tableName, DataSet dataSet = null)
 		{
-			if (!string.IsNullOrWhiteSpace(this.query))
+            if (string.IsNullOrWhiteSpace(this.query))
+            {
+                throw new Exception(STREXCEPTION);
+            }
+
+			if (dataSet == null)
 			{
-				if (dataSet == null)
-				{
-					dataSet = new DataSet();
-				}
-
-				using (var dataAdapter = this.provider.GetDataAdapter())
-				{
-					try
-					{
-						var command = this.provider.GetCommand(this.query, this.parameters);
-
-						dataAdapter.SelectCommand = (DbCommand)command;
-
-						// fill datatable
-						dataSet.EnforceConstraints = false;
-						dataAdapter.Fill(dataSet, tableName);
-						dataSet.EnforceConstraints = true;
-
-						this.provider.CloseConnection();
-
-						return dataSet;
-					}
-					catch (Exception ex)
-					{
-						/* TODO! implement eventHandler for log exceptions */
-						throw new Exception(STREXCEPTION, ex);
-					}
-				}
+				dataSet = new DataSet();
 			}
-			else
+
+			using (var dataAdapter = this.provider.GetDataAdapter())
 			{
-				throw new Exception(STREXCEPTION);
+				try
+				{
+					var command = this.provider.GetCommand(this.query, this.parameters);
+
+					dataAdapter.SelectCommand = (DbCommand)command;
+
+					// fill datatable
+					dataSet.EnforceConstraints = false;
+					dataAdapter.Fill(dataSet, tableName);
+					dataSet.EnforceConstraints = true;
+
+					this.provider.CloseConnection();
+
+					return dataSet;
+				}
+				catch (Exception ex)
+				{
+					/* TODO! implement eventHandler for log exceptions */
+					throw new Exception(STREXCEPTION, ex);
+				}
 			}
 		}
 
-		public List<T> ToList<T>()
-			 where T : new()
-		{
-			return this.ToDataTable()
-				.AsEnumerable()
-				.Select(row => row.ToEntity<T>())
-				.ToList<T>();
-		}
+        public List<T> ToList<T>()
+            where T : new() => this
+                .ToDataTable()
+                .AsEnumerable()
+                .Select(row => row.ToEntity<T>())
+                .ToList<T>();
 
-		public DbDataReader ToDataReader() =>
-			this.Get<DbDataReader>();
+        public DbDataReader ToDataReader() => this
+            .Get<DbDataReader>();
 
 		public T ToEntity<T>()
-			where T : new() => this.ToList<T>().FirstOrDefault();
+			where T : new() => this
+                .ToList<T>()
+                .FirstOrDefault();
 
 		/// <summary>
 		/// Get's (read) a value from a Scalar command
@@ -117,33 +118,32 @@ namespace Netsoft.Glaucus
 		/// <returns><see cref="T"/></returns>
 		public T Get<T>()
 		{
-			if (!string.IsNullOrWhiteSpace(this.query))
+            if (string.IsNullOrWhiteSpace(this.query))
+            {
+                throw new Exception(STREXCEPTION);
+            }
+
+			object result;
+
+			if (this.provider.Connection.State == ConnectionState.Closed || this.provider.Connection.State == ConnectionState.Broken)
 			{
-				object result = null;
-
-				if (this.provider.Connection.State == ConnectionState.Closed || this.provider.Connection.State == ConnectionState.Broken)
-				{
-					this.provider.Connection.Open();
-				}
-
-				using (var command = this.provider.GetCommand(this.query, this.parameters))
-				{
-					if (typeof(T).GetInterfaces().Contains(typeof(IDataReader)))
-					{
-						result = command.ExecuteReader();
-						return (T)result;
-					}
-
-					result = command.ExecuteScalar();
-					this.provider.CloseConnection();
-					return result == null || DBNull.Value.Equals(result)
-						? default(T)
-						: (T)System.Convert.ChangeType(result, typeof(T));
-				}
+				this.provider.Connection.Open();
 			}
-			else
+
+			using (var command = this.provider.GetCommand(this.query, this.parameters))
 			{
-				throw new Exception(STREXCEPTION);
+				if (typeof(T).GetInterfaces().Contains(typeof(IDataReader)))
+				{
+					result = command.ExecuteReader();
+					return (T)result;
+				}
+
+				result = command.ExecuteScalar();
+				this.provider.CloseConnection();
+
+				return result == null || DBNull.Value.Equals(result)
+					? default
+					: (T)Convert.ChangeType(result, typeof(T));
 			}
 		}
 

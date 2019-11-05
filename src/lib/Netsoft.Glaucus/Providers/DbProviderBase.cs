@@ -14,13 +14,12 @@ namespace Netsoft.Glaucus.Providers
 
 	public abstract class DbProviderBase : IDbProvider, IDisposable
 	{
-		private const string STREXCEPTION = "Invalid connection string or query!";
 		private static readonly object Locker = new object();
 		private IDbTransaction transaction = null;
+        private bool disposed = false;
 
-		protected DbProviderBase()
-		{
-		}
+        protected DbProviderBase()
+		{ }
 
 		public bool IsTransaction { get; private set; } = false;
 
@@ -92,8 +91,8 @@ namespace Netsoft.Glaucus.Providers
 			foreach (DataRow row in schemaTable.Rows)
 			{
 				string columnName = row.ItemArray[0].ToString().Length > 0
-								  ? row.ItemArray[0].ToString()
-								  : $"Column{schemaTable.Rows.IndexOf(row) + 1}";
+                    ? row.ItemArray[0].ToString()
+                    : $"Column{schemaTable.Rows.IndexOf(row) + 1}";
 
 				if (string.IsNullOrEmpty(columnName))
 				{
@@ -138,8 +137,8 @@ namespace Netsoft.Glaucus.Providers
 					"SELECT {0} FROM [{1}] {2} {3}",
 					string.Join(", ", fields.Select(x => $"[{x}]")),
 					tableName,
-					string.IsNullOrWhiteSpace(whereCondition) ? string.Empty : "WHERE " + whereCondition,
-					string.IsNullOrWhiteSpace(orderBy) ? string.Empty : "ORDER By " + orderBy),
+					string.IsNullOrWhiteSpace(whereCondition) ? string.Empty : $"WHERE {whereCondition}",
+					string.IsNullOrWhiteSpace(orderBy) ? string.Empty : $"ORDER By {orderBy}"),
 				parameters: null);
 		}
 
@@ -225,7 +224,7 @@ namespace Netsoft.Glaucus.Providers
 
 		public Hashtable ExecuteSP(string spName, DbParameters parameters, params string[] returnParams)
 		{
-			Hashtable result = new Hashtable();
+			var result = new Hashtable();
 
 			using (var command = this.GetCommand())
 			{
@@ -234,9 +233,9 @@ namespace Netsoft.Glaucus.Providers
 
 				if (parameters != null)
 				{
-					foreach (var parameter in parameters)
+                    foreach (var parameter in parameters)
 					{
-						IDbDataParameter dbParameter = command.CreateParameter();
+						var dbParameter = command.CreateParameter();
 						dbParameter.ParameterName = parameter.Key;
 						dbParameter.Value = parameter.Value;
 						dbParameter.DbType = parameter.Value.GetDbType();
@@ -248,7 +247,7 @@ namespace Netsoft.Glaucus.Providers
 				{
 					foreach (var outputParam in returnParams)
 					{
-						IDbDataParameter dbParameter = command.CreateParameter();
+						var dbParameter = command.CreateParameter();
 						dbParameter.ParameterName = outputParam;
 						dbParameter.Direction = ParameterDirection.Output;
 						dbParameter.Size = 255;
@@ -261,23 +260,20 @@ namespace Netsoft.Glaucus.Providers
 
 				for (int i = 0; i < command.Parameters.Count; i++)
 				{
-					if (command.Parameters[i] is DbParameter)
-					{
-						var dbParameter = command.Parameters[i] as DbParameter;
-						if (dbParameter.Direction == ParameterDirection.Output)
-						{
-							result.Add(dbParameter.ParameterName, dbParameter.Value);
-						}
-					}
-				}
-			}
+                    if (command.Parameters[i] is DbParameter dbParameter &&
+                        dbParameter.Direction == ParameterDirection.Output)
+                    {
+                        result.Add(dbParameter.ParameterName, dbParameter.Value);
+                    }
+                }
+            }
 
 			return result;
 		}
 
 		public Hashtable ExecuteSP(string spName, DbParameters parameters, ref DataTable dataTable, params string[] returnParams)
 		{
-			Hashtable result = new Hashtable();
+			var result = new Hashtable();
 
 			using (var command = this.GetCommand())
 			{
@@ -313,13 +309,10 @@ namespace Netsoft.Glaucus.Providers
 
 				for (int i = 0; i < command.Parameters.Count; i++)
 				{
-					if (command.Parameters[i] is DbParameter)
+					if (command.Parameters[i] is DbParameter dbParameter &&
+                        dbParameter.Direction == ParameterDirection.Output)
 					{
-						var dbParameter = command.Parameters[i] as DbParameter;
-						if (dbParameter.Direction == ParameterDirection.Output)
-						{
-							result.Add(dbParameter.ParameterName, dbParameter.Value);
-						}
+                        result.Add(dbParameter.ParameterName, dbParameter.Value);
 					}
 				}
 			}
@@ -424,19 +417,34 @@ namespace Netsoft.Glaucus.Providers
 
 		public void Dispose()
 		{
-			if (this.Connection != null && this.Connection.State == ConnectionState.Open)
-			{
-				if (this.IsTransaction)
-				{
-					this.RollbackTransaction();
-				}
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
-				this.Connection.Close();
-				this.Connection.Dispose();
-			}
-		}
+        protected virtual void Dispose(bool disposing)
+        {
+            if (this.disposed)
+            {
+                return;
+            }
 
-		#endregion
+            if (disposing)
+            {
+                if (this.Connection != null && this.Connection.State == ConnectionState.Open)
+                {
+                    if (this.IsTransaction)
+                    {
+                        this.RollbackTransaction();
+                    }
 
-	}
+                    this.Connection.Close();
+                    this.Connection.Dispose();
+                }
+            }
+
+            this.disposed = true;
+        }
+
+        #endregion
+    }
 }
