@@ -13,7 +13,8 @@ namespace Netsoft.Glaucus
 
 	public class DbEngine : IDisposable
 	{
-		private readonly IDbProvider dbProvider = null;
+        private readonly IDbProvider dbProvider = null;
+        private bool disposed = false;
 
 		public DbEngine(IDbProvider provider, string applicationName = "")
 		{
@@ -21,19 +22,7 @@ namespace Netsoft.Glaucus
 
 			if (!string.IsNullOrWhiteSpace(applicationName) && this.dbProvider is DbProviderBase)
 			{
-				var connectionString = (this.dbProvider as DbProviderBase).Connection.ConnectionString;
-
-				if (!connectionString.Trim().EndsWith(";"))
-				{
-					connectionString += ";";
-				}
-
-				if (!connectionString.Contains("Application Name"))
-				{
-					connectionString += string.Format("Application Name={0};", applicationName);
-				}
-
-				(this.dbProvider as DbProviderBase).Connection.ConnectionString = connectionString;
+                (this.dbProvider as DbProviderBase).Connection.ConnectionString = this.BuildConnectionString(applicationName);
 			}
 		}
 
@@ -170,8 +159,58 @@ namespace Netsoft.Glaucus
 
 		public void Dispose()
 		{
-			this.dbProvider.Dispose();
+            this.Dispose(true);
 			GC.SuppressFinalize(this);
 		}
-	}
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (this.disposed)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                this.dbProvider.Dispose();
+            }
+
+            this.disposed = true;
+        }
+
+        private string BuildConnectionString(string applicationName)
+        {
+            if (!string.IsNullOrWhiteSpace(applicationName) && this.dbProvider is DbProviderBase)
+            {
+                var connectionString = (this.dbProvider as DbProviderBase).Connection.ConnectionString;
+
+                if (!connectionString.Trim().EndsWith(";"))
+                {
+                    connectionString += ";";
+                }
+
+                if (!connectionString.Contains("Application Name"))
+                {
+                    connectionString += $"Application Name={this.ApplicationName(applicationName)};";
+                }
+
+                return connectionString;
+            }
+
+            return string.Empty;
+        }
+
+        private string ApplicationName(string applicationName)
+        {
+            return string.IsNullOrWhiteSpace(applicationName)
+                ? this.AssemblyName()
+                : applicationName;
+        }
+
+        private string AssemblyName()
+        {
+            var assemblyName = this.GetType().Assembly.GetName();
+            return $"{assemblyName.Name} v{assemblyName.Version.Major}.{assemblyName.Version.Minor}.{assemblyName.Version.Build}";
+        }
+    }
 }
