@@ -30,7 +30,7 @@ var connectionString = ConfigurationManager.ConnectionStrings[0].ConnectionStrin
 var provider = new MSSqlProvider(connectionString);
 using (var engine = new DbEngine(provider))
 {
-    var data = engine.Select("TableName", new[] { "field1", "fild2" });
+    var data = engine.Select("TableName", new[] { "field1", "field2" });
     var datatable = data.ToDataTable();
 }
 ```
@@ -40,15 +40,15 @@ Instead of using a DataTable (or DataSet) you may prefer to map your database to
 ```csharp
 public class DummyItem
 {
-    string Field1 { get; set; }
-    string Field2 { get; set; }
+    public string Field1 { get; set; }
+    public string Field2 { get; set; }
 }
 ```
 
 ```csharp
 using (var engine = new DbEngine(provider))
 {
-    var data = engine.Select("TableName", new[] { "field1", "fild2" });
+    var data = engine.Select("TableName", new[] { "field1", "field2" });
     var collection = data.ToList<DummyItem>();
 }
 ```
