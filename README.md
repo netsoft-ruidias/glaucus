@@ -4,12 +4,13 @@ Glaucus is an open source ASP.NET Core ORM, it allows programs written in C#, Vi
 
 An ORM is an Object Relational Mapper, which is responsible for mapping between database and programming language.
 
-Currently supports MSSQL and SQLite connectors and is very effective and powerful, yet simple to implement.
+Currently supports MSSQL, SQLite and MySQL official connectors and is very effective and powerful, yet simple to implement.
 
 ## Database Engines
 Glaucus currently supports the following databases (and more to come)
 - MS SQL,
 - SQLite,
+- MySQL
 
 ## Installation
 
