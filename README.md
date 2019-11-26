@@ -14,7 +14,12 @@ Glaucus currently supports the following databases (and more to come)
 
 ## Installation
 
-Glaucus is installed through NuGet: https://www.nuget.org/packages/Glaucus
+Glaucus is installed through NuGet: https://www.nuget.org/packages/Netsoft.Glaucus/
+
+and the specific connectors can be installed through:
+- https://www.nuget.org/packages/Netsoft.Glaucus.SQLServer/
+- https://www.nuget.org/packages/Netsoft.Glaucus.SQLite/
+- https://www.nuget.org/packages/Netsoft.Glaucus.MySQL/
 
 ```bash
 PM> Install-Package Glaucus
