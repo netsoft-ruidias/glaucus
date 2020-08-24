@@ -1,3 +1,8 @@
+![GitHub](https://img.shields.io/github/license/netsoft-ruidias/glaucus)
+![.Net Core Version](https://img.shields.io/badge/.NET%20Core-2.2-green)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/netsoft-ruidias/glaucus/.NET%20Core)
+![GitHub last commit](https://img.shields.io/github/last-commit/netsoft-ruidias/glaucus)
+
 # Project Glaucus
 
 Glaucus is an open source ASP.NET Core ORM, it allows programs written in C#, Visual Basic, F# to access several database servers, using their native Data Providers.
